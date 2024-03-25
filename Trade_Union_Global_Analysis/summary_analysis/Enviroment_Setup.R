@@ -7,7 +7,7 @@ library(forcats)
 library(GGally)
 library(stringr)
 library(magrittr)
-
+library(purrr)
 setwd("~/workbook")
 con <- dbConnect(RSQLite::SQLite(), "trade_union_data.db")
 dbListTables(con)
@@ -23,6 +23,24 @@ state_union_coverage_density <-
 state_union_join <-
   as_tibble(dbReadTable(con, "state_uniondc_join"))
 dbDisconnect(con)
+
+
+# Define common theme with grid lines
+common_theme <- function() {
+  theme(
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    panel.grid.major = element_line(color = "grey90"),
+    panel.grid.minor = element_line(color = "grey95"),
+    text = element_text(color = "black"),
+    axis.text = element_text(color = "black"),
+    axis.title = element_text(color = "black"),
+    strip.text = element_text(color = "black"),
+    legend.text = element_text(color = "black"),
+    legend.title = element_text(color = "black"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+}
 
 
 # full joined data is below
@@ -158,10 +176,10 @@ state_union_join %>%
   predict(new_membership) %>%
   round(2)
 
-library(knitr)
-library(highr)
-library(evaluate)
-library(xfun)
-
-setwd("~/Lab2/Trade Union Global Analysis./")
-knit("TradeUnion.Rnw")
+# library(knitr)
+# library(highr)
+# library(evaluate)
+# library(xfun)
+#
+# setwd("~/Lab2/Trade Union Global Analysis./")
+# knit("TradeUnion.Rnw")
